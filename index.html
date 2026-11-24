@@ -100,7 +100,99 @@ body {
 		</style>
 		<link id="-gd-engine-icon" rel="icon" type="image/png" href="index.icon.png" />
 <link rel="apple-touch-icon" href="index.apple-touch-icon.png"/>
+<script>
+(() => {
+	const diagnosticsOrigin = 'https://bwm2bwm.github.io';
+	const diagnosticsPath = '/cellcats-web-diagnostics/';
+	const { origin, pathname } = window.location;
+	if (origin !== diagnosticsOrigin || (pathname !== diagnosticsPath && pathname !== diagnosticsPath + 'index.html')) {
+		return;
+	}
 
+	const measurementId = 'G-56222L3BDL';
+	window.dataLayer = window.dataLayer || [];
+	window.gtag = function () {
+		window.dataLayer.push(arguments);
+	};
+	window.gtag('js', new Date());
+	window.gtag('config', measurementId, {
+		allow_google_signals: false,
+		allow_ad_personalization_signals: false,
+		cookie_domain: 'none',
+		cookie_path: diagnosticsPath,
+		page_location: origin + diagnosticsPath,
+		page_referrer: document.referrer ? new URL(document.referrer).origin : '',
+	});
+
+	const script = document.createElement('script');
+	script.async = true;
+	script.src = 'https://www.googletagmanager.com/gtag/js?id=' + measurementId;
+	document.head.appendChild(script);
+})();
+</script>
+<template id='cellcats-privacy-template'>
+	<style>
+		#cellcats-privacy-trigger {
+			position: fixed;
+			z-index: 2;
+			top: env(safe-area-inset-top, 0px);
+			left: env(safe-area-inset-left, 0px);
+			min-height: 36px;
+			padding: 0 10px;
+			border: 0;
+			border-radius: 0 0 8px 0;
+			background: #fffdf8;
+			color: #53493e;
+			font: 13px system-ui, sans-serif;
+			text-decoration: underline;
+			cursor: pointer;
+		}
+		#cellcats-privacy-dialog {
+			box-sizing: border-box;
+			width: min(32rem, calc(100% - 2rem));
+			max-height: calc(100% - 2rem);
+			overflow: auto;
+			overscroll-behavior: contain;
+			touch-action: pan-y;
+			padding: 1rem 1.25rem;
+			border: 1px solid #d9cec2;
+			border-radius: 12px;
+			background: #fffdf8;
+			color: #3a3530;
+			font: 1rem/1.5 system-ui, sans-serif;
+		}
+		#cellcats-privacy-dialog::backdrop { background: #0006; }
+		#cellcats-privacy-dialog h2 { margin: 0; font-size: 1.125rem; }
+		#cellcats-privacy-dialog a { color: #514978; }
+		#cellcats-privacy-dialog button { min-height: 36px; font: inherit; }
+	</style>
+	<button id='cellcats-privacy-trigger' type='button' aria-haspopup='dialog' aria-controls='cellcats-privacy-dialog'><span lang='ja'>プライバシー</span> / Privacy</button>
+	<dialog id='cellcats-privacy-dialog' aria-labelledby='cellcats-privacy-title'>
+		<h2 id='cellcats-privacy-title'><span lang='ja'>プライバシー</span> / Privacy</h2>
+		<p lang='ja'>このWeb体験版では、アクセス状況を把握するためにGoogle AnalyticsとCookieなどを利用します。閲覧したページ、参照元、ブラウザや端末の種類、おおよその地域などが計測されます。</p>
+		<p>This web demo uses Google Analytics and cookies or similar technologies to understand site traffic. Analytics data includes pages viewed, referral sources, browser and device types, and approximate location.</p>
+		<p><a href='https://policies.google.com/technologies/partner-sites' target='_blank' rel='noopener noreferrer'><span lang='ja'>Googleのデータ処理について</span> / How Google uses data</a></p>
+		<button type='button' autofocus><span lang='ja'>閉じる</span> / Close</button>
+	</dialog>
+</template>
+<script>
+(() => {
+	const { origin, pathname } = window.location;
+	if (origin !== 'https://bwm2bwm.github.io' ||
+		(pathname !== '/cellcats-web-diagnostics/' && pathname !== '/cellcats-web-diagnostics/index.html')) {
+		return;
+	}
+
+	document.addEventListener('DOMContentLoaded', () => {
+		const notice = document.getElementById('cellcats-privacy-template').content.cloneNode(true);
+		const button = notice.getElementById('cellcats-privacy-trigger');
+		const dialog = notice.getElementById('cellcats-privacy-dialog');
+		button.addEventListener('click', () => dialog.showModal());
+		dialog.querySelector('button').addEventListener('click', () => dialog.close());
+		document.body.appendChild(notice);
+	}, { once: true });
+})();
+</script>
 	</head>
 	<body>
 		<canvas id="canvas">
